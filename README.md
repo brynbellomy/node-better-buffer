@@ -9,9 +9,17 @@ please god let someone get the joke.  preferably a girl.  preferably gorgeous.
 It blows my mind that these methods don't exist on the core node.js `Buffer`
 object.  srsly guise?
 
+# how
+
+Install with npm.
+
+```sh
+npm install better-buffer
+```
+
 # what
 
-## BetterBuffer(initialSize, growSize = 512)
+## BetterBuffer (initialSize, growSize = 512)
 
 Constructor is compatible with existing `Buffer` constructor, but also adds an
 optional `growSize` parameter.  The only time that a `BetterBuffer` will grow
