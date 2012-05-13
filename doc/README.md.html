@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>README.md</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = '', thisFile = 'README.md';
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#---better-buffer">// better-buffer</a>
+      </div>
+      <div class="heading h1">
+        <a href="#why">why</a>
+      </div>
+      <div class="heading h1">
+        <a href="#what">what</a>
+      </div>
+      <div class="heading h2">
+        <a href="#betterbuffer-initialsize--growsize---512-">BetterBuffer(initialSize, growSize = 512)</a>
+      </div>
+      <div class="heading h2">
+        <a href="#betterbuffer--growtoaccommodate--datalengthtoaccommodate-">BetterBuffer::growToAccommodate (dataLengthToAccommodate)</a>
+      </div>
+      <div class="heading h2">
+        <a href="#betterbuffer--pushback--sourcebuffer-">BetterBuffer::pushBack (sourceBuffer)</a>
+      </div>
+      <div class="heading h2">
+        <a href="#betterbuffer--popfront--num-">BetterBuffer::popFront (num)</a>
+      </div>
+      <div class="heading h2">
+        <a href="#betterbuffer--clonedataintonewbuffer---">BetterBuffer::cloneDataIntoNewBuffer ()</a>
+      </div>
+      <div class="heading h1">
+        <a href="#tl-dr--for-the-hyperactive-and-or-distractible-">tl;dr (for the hyperactive and/or distractible)</a>
+      </div>
+      <div class="heading h1">
+        <a href="#authors-and-contributors">Authors and contributors</a>
+      </div>
+      <div class="heading h1">
+        <a href="#license--mit-license-">License (MIT license)</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="docs markdown">
+<div class="pilwrap" id="---better-buffer">
+  <h1>
+    <a href="#---better-buffer" class="pilcrow">&#182;</a>
+    // better-buffer
+  </h1>
+</div>
+
+
+<p>part of me wanted to call this module <code>node-miyagi</code>.</p>
+
+<p>please god let someone get the joke.  preferably a girl.  preferably gorgeous.</p>
+
+
+<div class="pilwrap" id="why">
+  <h1>
+    <a href="#why" class="pilcrow">&#182;</a>
+    why
+  </h1>
+</div>
+
+
+<p>It blows my mind that these methods don't exist on the core node.js <code>Buffer</code>
+object.  srsly guise?</p>
+
+
+<div class="pilwrap" id="what">
+  <h1>
+    <a href="#what" class="pilcrow">&#182;</a>
+    what
+  </h1>
+</div>
+
+
+
+<div class="pilwrap" id="betterbuffer-initialsize--growsize---512-">
+  <h2>
+    <a href="#betterbuffer-initialsize--growsize---512-" class="pilcrow">&#182;</a>
+    BetterBuffer(initialSize, growSize = 512)
+  </h2>
+</div>
+
+
+<p>Constructor is compatible with existing <code>Buffer</code> constructor, but also adds an
+optional <code>growSize</code> parameter.  The only time that a <code>BetterBuffer</code> will grow
+is when you call the <code>growToAccommodate()</code> method -- there's no auto-growing on
+<code>BetterBuffer::pushBack()</code> or <code>Buffer::copy()</code> -- at least not yet.</p>
+
+
+<div class="pilwrap" id="betterbuffer--growtoaccommodate--datalengthtoaccommodate-">
+  <h2>
+    <a href="#betterbuffer--growtoaccommodate--datalengthtoaccommodate-" class="pilcrow">&#182;</a>
+    BetterBuffer::growToAccommodate (dataLengthToAccommodate)
+  </h2>
+</div>
+
+
+<p>Ensures that the buffer is at least big enough to store <code>dataLengthToAccommodate</code>
+octets.  The buffer will grow in intervals defind by its <code>growSize</code> member, so
+you may sometimes end up with a buffer that's slightly larger than necessary.</p>
+
+
+<div class="pilwrap" id="betterbuffer--pushback--sourcebuffer-">
+  <h2>
+    <a href="#betterbuffer--pushback--sourcebuffer-" class="pilcrow">&#182;</a>
+    BetterBuffer::pushBack (sourceBuffer)
+  </h2>
+</div>
+
+
+<p>Queue-like functionality for buffers. Appends <code>sourceBuffer</code> to the buffer at
+the end of that buffer's actual data, as indicated by its <code>dataLength</code> member. So
+for example, if you have:</p>
+
+
+<div class="highlight"><pre><code><span class="kd">var</span> <span class="nx">myBuffer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+<span class="c1">// myBuffer.length == 10</span>
+<span class="c1">// myBuffer.dataLength == 0</span>
+</code></pre></div>
+
+
+
+<p>...and you append, say, <code>secondBuffer</code>, the <code>length</code> of which is <code>6</code>:</p>
+
+
+<div class="highlight"><pre><code><span class="nx">myBuffer</span><span class="p">.</span><span class="nx">pushBack</span><span class="p">(</span><span class="nx">secondBuffer</span><span class="p">);</span>
+<span class="c1">// myBuffer.length == 10</span>
+<span class="c1">// myBuffer.dataLength == 6</span>
+</code></pre></div>
+
+
+
+<p><code>myBuffer.dataLength</code> is now 6.  Now let's append <code>thirdBuffer</code>, the length of
+which is <code>2</code>:</p>
+
+
+<div class="highlight"><pre><code><span class="nx">myBuffer</span><span class="p">.</span><span class="nx">pushBack</span><span class="p">(</span><span class="nx">thirdBuffer</span><span class="p">);</span>
+<span class="c1">// myBuffer.length == 10</span>
+<span class="c1">// myBuffer.dataLength == 8</span>
+</code></pre></div>
+
+
+
+<p><code>myBuffer.dataLength</code> is now 8, and <code>thirdBuffer</code> was written into <code>myBuffer</code>
+starting at position 6.</p>
+
+<p>In combination with <code>BetterBuffer::popFront()</code>, this makes it much easier to
+create queue- or stream-like behavior using simple buffer objects.</p>
+
+<p>The buffer's <code>dataLength</code> property is incremented accordingly.</p>
+
+
+<div class="pilwrap" id="betterbuffer--popfront--num-">
+  <h2>
+    <a href="#betterbuffer--popfront--num-" class="pilcrow">&#182;</a>
+    BetterBuffer::popFront (num)
+  </h2>
+</div>
+
+
+<p>Just a simple <code>pop</code> function, like you'd find on a stack or queue.  Hacks off the
+first <code>num</code> octets in the buffer, shifts everything in the buffer forward by the
+same distance, and returns the popped octets in a new <code>BetterBuffer</code> object.</p>
+
+<p>The buffer's <code>dataLength</code> property is decremented accordingly.</p>
+
+
+<div class="pilwrap" id="betterbuffer--clonedataintonewbuffer---">
+  <h2>
+    <a href="#betterbuffer--clonedataintonewbuffer---" class="pilcrow">&#182;</a>
+    BetterBuffer::cloneDataIntoNewBuffer ()
+  </h2>
+</div>
+
+
+<p>Creates a new <code>BetterBuffer</code> containing an exact copy of the contents of the
+buffer.  <strong>NOTE:</strong> the returned buffer's size is equal to the source buffer's
+<code>dataLength</code> property, not its <code>length</code> property.</p>
+
+<p>For example, let's say you have a buffer <code>myBuffer</code> of size <code>256</code>, and you've only
+<code>pushBack</code>ed one buffer of size <code>100</code> into it.  This means that <code>myBuffer.length</code>
+is <code>256</code>, but <code>myBuffer.dataLength</code> is <code>100</code>. So when you call
+<code>cloneDataIntoNewBuffer</code>, it will return a buffer of size <code>100</code>, not <code>256</code>.</p>
+
+
+<div class="pilwrap" id="tl-dr--for-the-hyperactive-and-or-distractible-">
+  <h1>
+    <a href="#tl-dr--for-the-hyperactive-and-or-distractible-" class="pilcrow">&#182;</a>
+    tl;dr (for the hyperactive and/or distractible)
+  </h1>
+</div>
+
+
+
+<div class="highlight"><pre><code><span class="kd">var</span> <span class="nx">myBuf</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+<span class="nx">myBuf</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mh">0x00</span><span class="p">);</span>
+<span class="c1">// myBuf.length == 10</span>
+<span class="c1">// myBuf.dataLength == 0</span>
+<span class="c1">// myBuf = &lt;Buffer 00 00 00 00 00 00 00 00 00 00&gt;</span>
+
+<span class="kd">var</span> <span class="nx">smallerBuffer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+<span class="nx">smallerBuffer</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mh">0xff</span><span class="p">);</span> 
+<span class="c1">// smallerBuffer.length == 8</span>
+<span class="c1">// smallerBuffer.dataLength == 0</span>
+<span class="c1">// smallerBuffer = &lt;Buffer ff ff ff ff ff ff ff ff&gt;</span>
+
+<span class="c1">// now we explicitly set smallerBuffer.dataLength -- it&#39;s not necessary, but</span>
+<span class="c1">// it makes things clearer conceptually</span>
+<span class="nx">smallerBuffer</span><span class="p">.</span><span class="nx">dataLength</span> <span class="o">=</span> <span class="nx">smallerBuffer</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+
+<span class="c1">// what happens when we call growToAccommodate to ensure we have enough room?</span>
+<span class="nx">myBuf</span><span class="p">.</span><span class="nx">growToAccommodate</span><span class="p">(</span><span class="nx">smallerBuffer</span><span class="p">.</span><span class="nx">dataLength</span><span class="p">);</span>
+<span class="c1">// smallerBuffer is smaller than myBuf, so myBuf.length is still 10</span>
+
+<span class="c1">// go ahead and eat the smaller buffer</span>
+<span class="nx">myBuf</span><span class="p">.</span><span class="nx">pushBack</span><span class="p">(</span><span class="nx">smallerBuffer</span><span class="p">);</span> 
+<span class="c1">// myBuf = &lt;Buffer ff ff ff ff ff ff ff ff 00 00&gt;</span>
+<span class="c1">// myBuf.length == 10</span>
+<span class="c1">// myBuf.dataLength == 8</span>
+
+<span class="kd">var</span> <span class="nx">anotherBuffer</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+<span class="nx">anotherBuffer</span><span class="p">.</span><span class="nx">fill</span><span class="p">(</span><span class="mh">0xaa</span><span class="p">);</span>
+<span class="c1">// anotherBuffer.length == 8</span>
+<span class="c1">// anotherBuffer.dataLength == 0</span>
+<span class="c1">// anotherBuffer = &lt;Buffer aa aa aa aa aa aa aa aa&gt;</span>
+
+<span class="c1">// again, we explicitly set anotherBuffer.dataLength for the sake of code readability</span>
+<span class="nx">anotherBuffer</span><span class="p">.</span><span class="nx">dataLength</span> <span class="o">=</span> <span class="nx">anotherBuffer</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+
+<span class="c1">// let&#39;s try calling growToAccommodate again and see if anything happens this time</span>
+<span class="nx">myBuf</span><span class="p">.</span><span class="nx">growToAccommodate</span><span class="p">(</span><span class="nx">myBuf</span><span class="p">.</span><span class="nx">dataLength</span> <span class="o">+</span> <span class="nx">anotherBuffer</span><span class="p">.</span><span class="nx">dataLength</span><span class="p">);</span>
+<span class="c1">// now, myBuf.length == 20 because:</span>
+<span class="c1">//     myBuf.dataLength == 8</span>
+<span class="c1">//     anotherBuffer.dataLength == 8</span>
+<span class="c1">// and myBuf.growSize == 5 (myBuf&#39;s initial size was 10, and 10 + 5 + 5 == 20)</span>
+
+<span class="c1">// now we can pushBack() safely</span>
+<span class="nx">myBuf</span><span class="p">.</span><span class="nx">pushBack</span><span class="p">(</span><span class="nx">anotherBuffer</span><span class="p">);</span>
+<span class="c1">// myBuf = &lt;Buffer ff ff ff ff ff ff ff ff aa aa aa aa aa aa aa aa 00 00 00 00&gt;</span>
+<span class="c1">// myBuf.length == 20</span>
+<span class="c1">// myBuf.dataLength == 16</span>
+
+<span class="c1">// and just for good measure let&#39;s tack on a shitty example of popFront()</span>
+<span class="kd">var</span> <span class="nx">justAPiece</span> <span class="o">=</span> <span class="nx">myBuf</span><span class="p">.</span><span class="nx">popFront</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="c1">// justAPiece = &lt;Buffer ff ff ff ff ff&gt;</span>
+<span class="c1">// myBuf = &lt;Buffer ff ff ff aa aa aa aa aa aa aa aa 00 00 00 00&gt;</span>
+</code></pre></div>
+
+
+
+
+<div class="pilwrap" id="authors-and-contributors">
+  <h1>
+    <a href="#authors-and-contributors" class="pilcrow">&#182;</a>
+    Authors and contributors
+  </h1>
+</div>
+
+
+<p>bryn austin bellomy &lt; <a href="mailto:<a href='mailto:bryn@signals.io'>bryn@signals.io</a>"><a href='mailto:bryn@signals.io'>bryn@signals.io</a></a> ></p>
+
+
+<div class="pilwrap" id="license--mit-license-">
+  <h1>
+    <a href="#license--mit-license-" class="pilcrow">&#182;</a>
+    License (MIT license)
+  </h1>
+</div>
+
+
+<p>Copyright (c) 2012 bryn austin bellomy, <a href="http://signals.io">signalenvelope / signals.io »</a></p>
+
+<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
+
+<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
+
+<p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p></div>
+  </div>
+</body>
+</html>

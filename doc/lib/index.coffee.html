@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>index.coffee</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="../doc-style.css" />
+  <script src="../doc-filelist.js"></script>
+  <script>
+    var relativeDir = '../', thisFile = 'lib/index.coffee';
+  </script>
+  <script src="../doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+      <div class="heading h1">
+        <a href="#class-betterbuffer">class BetterBuffer</a>
+      </div>
+      <div class="heading h2">
+        <a href="#instance-variables">Instance variables</a>
+      </div>
+      <div class="heading h3">
+        <a href="#var-growsize">var growSize</a>
+      </div>
+      <div class="heading h3">
+        <a href="#var-datalength">var dataLength</a>
+      </div>
+      <div class="heading h2">
+        <a href="#constructor">Constructor</a>
+      </div>
+      <div class="heading h3">
+        <a href="#constructor-betterbuffer">constructor BetterBuffer</a>
+      </div>
+      <div class="heading h2">
+        <a href="#instance-methods">Instance methods</a>
+      </div>
+      <div class="heading h3">
+        <a href="#fn-getnextsmallestbuffersize--">fn getNextSmallestBufferSize()</a>
+      </div>
+      <div class="heading h3">
+        <a href="#fn-growtoaccommodate--">fn growToAccommodate()</a>
+      </div>
+      <div class="heading h3">
+        <a href="#fn-pushback--">fn pushBack()</a>
+      </div>
+      <div class="heading h3">
+        <a href="#fn-clonedataintonewbuffer--">fn cloneDataIntoNewBuffer()</a>
+      </div>
+      <div class="heading h3">
+        <a href="#fn-popfront--">fn popFront()</a>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="nv">Buffer = </span><span class="nx">require</span><span class="p">(</span><span class="s">&quot;buffer&quot;</span><span class="p">).</span><span class="nx">Buffer</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs"><div class="dox">
+  <div class="summary">
+<div class="pilwrap" id="class-betterbuffer">
+  <h1>
+    <a href="#class-betterbuffer" class="pilcrow">&#182;</a>
+    class BetterBuffer
+  </h1>
+</div>
+
+  </div>
+  <div class="body"><p><code>Buffer</code> subclass with some really obvious add-ons.  Made this while working on
+an app for #Occupy, so maybe it really <em>is</em> a "better" <code>Buffer</code> (sigh).</p>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="k">class</span> <span class="nx">exports</span><span class="p">.</span><span class="nx">BetterBuffer</span> <span class="k">extends</span> <span class="nx">Buffer</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="instance-variables">
+  <h2>
+    <a href="#instance-variables" class="pilcrow">&#182;</a>
+    Instance variables
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="var-growsize">
+  <h3>
+    <a href="#var-growsize" class="pilcrow">&#182;</a>
+    <em>var</em> growSize
+  </h3>
+</div>
+
+
+<p>the increment by which to enlarge the buffer each time <code>growToAccommodate()</code> is called</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">growSize: </span><span class="mi">512</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="var-datalength">
+  <h3>
+    <a href="#var-datalength" class="pilcrow">&#182;</a>
+    <em>var</em> dataLength
+  </h3>
+</div>
+
+
+<p>the buffer's internal counter of how many octets have been copied in via <code>pushBack()</code></p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">dataLength: </span><span class="mi">0</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="constructor">
+  <h2>
+    <a href="#constructor" class="pilcrow">&#182;</a>
+    Constructor
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="constructor-betterbuffer">
+  <h3>
+    <a href="#constructor-betterbuffer" class="pilcrow">&#182;</a>
+    <em>constructor</em> BetterBuffer
+  </h3>
+</div>
+
+
+<div class="dox">
+  <div class="summary"><p>Object constructor.  Calls core <code>Buffer</code> constructor.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span>initialSize:</span>
+      <span class="dox_type">(number)</span>
+      <span>the initial size of the buffer, passed straight to the core node.js <code>Buffer</code> constructor.</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span>_growSize</span>
+      <span class="dox_type">(number)</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">constructor: </span><span class="nf">(initialSize, _growSize) -&gt;</span>
+    <span class="nx">Buffer</span><span class="p">.</span><span class="nx">call</span> <span class="nx">@</span><span class="p">,</span> <span class="nx">initialSize</span>
+    <span class="k">if</span> <span class="nx">_growSize</span><span class="o">?</span> <span class="k">then</span> <span class="vi">@growSize = </span><span class="nx">_growSize</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="instance-methods">
+  <h2>
+    <a href="#instance-methods" class="pilcrow">&#182;</a>
+    Instance methods
+  </h2>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="fn-getnextsmallestbuffersize--">
+  <h3>
+    <a href="#fn-getnextsmallestbuffersize--" class="pilcrow">&#182;</a>
+    <em>fn</em> getNextSmallestBufferSize()
+  </h3>
+</div>
+
+
+<div class="dox">
+  <div class="summary"><p>Finds the smallest possible capacity that can hold <code>dataLengthToAccommodate</code>
+and that is also a multiple of the buffer's <code>growSize</code> setting.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span>dataLengthToAccommodate:</span>
+      <span class="dox_type">(number)</span>
+      <span>The number of octets the buffer must guarantee being able to accommodate.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">getNextSmallestBufferSize: </span><span class="p">(</span><span class="nx">dataLengthToAccommodate</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">@growSize</span> <span class="o">*</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">((</span><span class="nx">dataLengthToAccommodate</span><span class="p">)</span> <span class="o">/</span> <span class="nx">@growSize</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="fn-growtoaccommodate--">
+  <h3>
+    <a href="#fn-growtoaccommodate--" class="pilcrow">&#182;</a>
+    <em>fn</em> growToAccommodate()
+  </h3>
+</div>
+
+
+<div class="dox">
+  <div class="summary"><p>Enlarge the buffer in increments specified by its <code>growSize</code> member.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span>dataLengthToAccommodate:</span>
+      <span class="dox_type">(number)</span>
+      <span>The number of octets the buffer must guarantee being able to accommodate.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">growToAccommodate: </span><span class="p">(</span><span class="nx">dataLengthToAccommodate</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="k">if</span> <span class="nx">dataLengthToAccommodate</span> <span class="o">&gt;</span> <span class="nx">@length</span>
+      <span class="nv">newSize = </span><span class="nx">@getNextSmallestBufferSize</span> <span class="nx">dataLengthToAccommodate</span>
+      <span class="nv">expandedBuffer = </span><span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="nx">newSize</span><span class="p">)</span>
+      <span class="nx">@copy</span> <span class="nx">expandedBuffer</span>
+      <span class="nx">BetterBuffer</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">@</span><span class="p">,</span> <span class="nx">newSize</span><span class="p">,</span> <span class="nx">@growSize</span><span class="p">)</span>
+      <span class="nx">expandedBuffer</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">@</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">@</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="fn-pushback--">
+  <h3>
+    <a href="#fn-pushback--" class="pilcrow">&#182;</a>
+    <em>fn</em> pushBack()
+  </h3>
+</div>
+
+
+<div class="dox">
+  <div class="summary"><p>Append the contents of <code>sourceBuffer</code> to the buffer.  The insertion point is the
+"end" of the buffer, as defined by the buffer's <code>dataLength</code> parameter.  The buffer
+is not enlarged if the contents of <code>sourceBuffer</code> exceeds the current capacity.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span>sourceBuffer:</span>
+      <span class="dox_type">(Buffer)</span>
+      <span>The buffer to append.</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span></span>
+      <span class="dox_type">(number)</span>
+      <span>The new value of <code>this.dataLength</code>.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">pushBack: </span><span class="p">(</span><span class="nx">sourceBuffer</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nx">sourceBuffer</span><span class="p">.</span><span class="nx">copy</span> <span class="nx">@</span><span class="p">,</span> <span class="nx">@dataLength</span>
+    <span class="vi">@dataLength = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">@length</span><span class="p">,</span> <span class="nx">@dataLength</span> <span class="o">+</span> <span class="nx">sourceBuffer</span><span class="p">.</span><span class="nx">length</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nx">@dataLength</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="fn-clonedataintonewbuffer--">
+  <h3>
+    <a href="#fn-clonedataintonewbuffer--" class="pilcrow">&#182;</a>
+    <em>fn</em> cloneDataIntoNewBuffer()
+  </h3>
+</div>
+
+
+<div class="dox">
+  <div class="summary"><p>Creates a new <code>BetterBuffer</code> containing an exact copy of the contents of the
+buffer.  <strong>NOTE:</strong> the returned buffer's size is equal to the source buffer's
+<code>dataLength</code> property, not its <code>length</code> property.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span></span>
+      <span class="dox_type">(BetterBuffer)</span>
+      <span>A new buffer containing the cloned octets.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">cloneDataIntoNewBuffer: </span><span class="o">=&gt;</span>
+    <span class="nv">outBuffer = </span><span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="nx">@dataLength</span><span class="p">,</span> <span class="nx">@growSize</span><span class="p">)</span>
+    <span class="nx">@copy</span> <span class="nx">outBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">@dataLength</span>
+    <span class="k">return</span> <span class="nx">outBuffer</span></pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap" id="fn-popfront--">
+  <h3>
+    <a href="#fn-popfront--" class="pilcrow">&#182;</a>
+    <em>fn</em> popFront()
+  </h3>
+</div>
+
+
+<div class="dox">
+  <div class="summary"><p>Just a simple <code>pop</code> function, like you'd find on a stack or queue.  Hacks off the
+first <code>num</code> octets in the buffer, shifts everything in the buffer forward by the
+same distance, and returns the popped octets in a new <code>BetterBuffer</code> object.</p>
+  </div>
+  <div class="body"><p>The buffer's <code>dataLength</code> property is decremented accordingly.</p>
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span>num:</span>
+      <span class="dox_type">(number)</span>
+      <span>The number of octets to pop and return.</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span></span>
+      <span class="dox_type">(BetterBuffer)</span>
+      <span>A new buffer containing the popped octets.</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>  <span class="nv">popFront: </span><span class="p">(</span><span class="nx">num</span><span class="p">)</span> <span class="o">=&gt;</span>
+    <span class="nv">newSize = </span><span class="nx">@length</span> <span class="o">-</span> <span class="nx">num</span>
+    <span class="nv">outBuffer = </span><span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="nx">num</span><span class="p">)</span>
+    <span class="nv">meBuffer = </span><span class="k">new</span> <span class="nx">BetterBuffer</span><span class="p">(</span><span class="nx">newSize</span><span class="p">)</span>
+    <span class="nv">newDataLength = </span><span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">@dataLength</span> <span class="o">-</span> <span class="nx">num</span><span class="p">)</span>
+    <span class="nx">@copy</span> <span class="nx">outBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">num</span>
+    <span class="nx">@copy</span> <span class="nx">meBuffer</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="nx">num</span><span class="p">,</span> <span class="nx">@length</span>
+    <span class="nx">BetterBuffer</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">@</span><span class="p">,</span> <span class="nx">newSize</span><span class="p">,</span> <span class="nx">@growSize</span><span class="p">)</span>
+    <span class="nx">meBuffer</span><span class="p">.</span><span class="nx">copy</span><span class="p">(</span><span class="nx">@</span><span class="p">)</span>
+    <span class="vi">@dataLength = </span><span class="nx">newDataLength</span>
+    <span class="k">return</span> <span class="nx">outBuffer</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>
