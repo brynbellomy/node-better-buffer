@@ -1,3 +1,4 @@
+[![build status](https://secure.travis-ci.org/brynbellomy/node-better-buffer.png)](http://travis-ci.org/brynbellomy/node-better-buffer)
 # // better-buffer
 
 part of me wanted to call this module `node-miyagi`.
